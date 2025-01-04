@@ -4,6 +4,106 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Represents a project that organizes routes and locations.
+ *
+ * Class: projeto
+ *
+ * Fields:
+ *   - id: static int
+ *       A static counter to uniquely identify each created instance of the `projeto` class.
+ *       Auto-incremented with each new instance.
+ *
+ *   - nome: String
+ *       The name of the project.
+ *
+ *   - descricao: String
+ *       A textual description of the project.
+ *
+ *   - rotas: HashMap<String, rota>
+ *       A mapping between route names (keys) and their corresponding `rota` objects (values).
+ *
+ * Constructors:
+ *   - projeto(String nome, String descricao, HashMap<String, rota> rotas)
+ *       Initializes a new `projeto` object with the given name, description, and routes.
+ *
+ *       Input Parameters:
+ *           nome: String
+ *               The name of the project.
+ *           descricao: String
+ *               The description of the project.
+ *           rotas: HashMap<String, rota>
+ *               A map of route names and their corresponding `rota` objects.
+ *
+ * Methods:
+ *   - getInformacaoLocais(): void
+ *       Prints detailed information about all locations across all routes in the project.
+ *
+ *       Input Parameters:
+ *           None.
+ *
+ *       Returns:
+ *           None.
+ *
+ *   - getInformacaoLocal(String nomeRota): void
+ *       Prints detailed information about locations for a specific route.
+ *
+ *       Input Parameters:
+ *           nomeRota: String
+ *               The name of the route whose location details are to be printed.
+ *
+ *       Returns:
+ *           None.
+ *
+ *   - getNomeRotas(): void
+ *       Prints the names and IDs of all routes in the project.
+ *
+ *       Input Parameters:
+ *           None.
+ *
+ *       Returns:
+ *           None.
+ *
+ *
+ *   - getDescricao(): void
+ *       Prints the description of the project.
+ *
+ *       Input Parameters:
+ *           None.
+ *
+ *       Returns:
+ *           None.
+ *
+ *   - getRotasCompleta(): void
+ *       Prints the complete route URLs for all routes in the project.
+ *
+ *       Input Parameters:
+ *           None.
+ *
+ *       Returns:
+ *           None.
+ *
+ *
+ *   - static projeto montaProjeto(String projeto): projeto
+ *       Creates a `projeto` object by reading data from a CSV file, parsing it into routes and locations,
+ *       and organizing them into the project's structure.
+ *
+ *       Input Parameters:
+ *           projeto: String
+ *               The name of the project, used to locate the corresponding CSV file.
+ *
+ *       Returns:
+ *           projeto:
+ *               A fully initialized `projeto` object.
+ *
+ * Notes:
+ *   - The `montaProjeto` method assumes that data is stored in a CSV file with a specific format.
+ *     Each row represents a location and its associated route information.
+ *   - The class is designed to encapsulate project details, making it easy to retrieve and display
+ *     information about routes and their locations.
+ */
+
+
 public class projeto {
 
     private static int id = 0;
@@ -40,7 +140,7 @@ public class projeto {
         System.out.println();
     }
 
-    public void getNomeRotas() {
+    public rota getNomeRotas() {
         System.out.println("Nome das rotas");
         for (String key: rotas.keySet()) {
             rota rota = rotas.get(key);
@@ -48,6 +148,7 @@ public class projeto {
         }
 
         System.out.println();
+        return null;
     }
 
     public void getDescricao() {

@@ -2,6 +2,64 @@ package caminhosOperarios;
 
 import java.util.*;
 
+/**
+ * Manages user authentication and database initialization
+ *
+ * Class: auth
+ *
+ * Methods:
+ *   - montaDatabaseUsuarios(): boolean
+ *       Initializes the user database by reading a CSV file and populating a HashMap.
+ *
+ *       Input Parameters:
+ *           None
+ *
+ *       Returns:
+ *           boolean:
+ *               True if the database is successfully created, False otherwise.
+ *
+ *   - autenticaUsuario(String username, String password): Usuario
+ *       Authenticates a user by validating the provided username and password.
+ *
+ *       Input Parameters:
+ *           username: String
+ *               The username provided by the user.
+ *           password: String
+ *               The password provided by the user.
+ *
+ *       Returns:
+ *           Usuario:
+ *               The authenticated user object if credentials are valid.
+ *               Null if authentication fails.
+ *
+ *   - validaUsuario(): HashMap<String, String>
+ *       Orchestrates user authentication by interacting with the user through the CLI.
+ *
+ *       Input Parameters:
+ *           None
+ *
+ *       Returns:
+ *           HashMap<String, String>:
+ *               A HashMap containing the authenticated user's username and role (e.g., "user1" -> "admin").
+ *               Null if authentication fails.
+ *
+ * Class Fields:
+ *   - dummyDatabase: Map<String, Usuario>
+ *       A HashMap that simulates a database for storing user credentials and roles.
+ *
+ *       Key: String
+ *           The username.
+ *       Value: Usuario
+ *           The corresponding user object containing username, password, and role information.
+ *
+ * Notes:
+ *   - Requires a CSV file with user data located at constants.FILEPATH_USUARIOS.
+ *   - The CSV should be formatted with a semicolon (;) delimiter and encoded per constants.ENCONDING.
+ *   - The class assumes a CLI-based interaction for username and password input.
+ *   - Handles errors gracefully when database initialization fails or authentication is invalid.
+ *
+ */
+
 public class auth {
 
     private static boolean montaDatabaseUsuarios() {

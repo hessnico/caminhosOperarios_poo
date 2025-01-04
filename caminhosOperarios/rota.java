@@ -2,6 +2,49 @@ package caminhosOperarios;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a route with a set of locations, a description, and functionality to manage the route.
+ *
+ * Input Parameters:
+ *    id: int
+ *        Unique identifier for the route.
+ *    nome: String
+ *        Name of the route.
+ *    rotaCompleta: String
+ *        Full URL of the route's path.
+ *
+ * Methods:
+ *    verDescricao: void
+ *        Prints the description of the route to the console.
+ *
+ *    consultaLocais: void
+ *        Prints the names and descriptions of the locations associated with the route.
+ *
+ *    getLocal: List<local>
+ *        Returns the list of locations (local) associated with the route.
+ *
+ *    adicionarLocal: void
+ *        Adds a new location to the route.
+ *        If an error occurs, it prints an error message.
+ *
+ *    getNome: String
+ *        Returns the name of the route.
+ *
+ *    getId: int
+ *        Returns the ID of the route.
+ *
+ *    getRotaCompleta: String
+ *        Returns the full route URL.
+ *
+ *    registerVisita: void
+ *        Increments the count of visits to the route.
+ *
+ * Static Attributes:
+ *    visitas: int
+ *        Tracks the number of times the route has been visited across all instances.
+
+ */
+
 public class rota {
     private int id;
     private String nome;
@@ -44,7 +87,7 @@ public class rota {
     }
 
     public String getRotaCompleta() {
-         return rotaCompleta;
+        return rotaCompleta;
     }
 
     public void registerVisita() {

@@ -5,6 +5,31 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A utility class containing static methods for generating Google Maps URLs and parsing coordinates.
+ *
+ * Methods:
+ *    generateGoogleMapsLocalURL: String
+ *        Generates a Google Maps URL for a specific location based on WKT (Well-Known Text) coordinate string.
+ *        The method extracts the latitude and longitude values from the provided WKT string.
+ *
+ *    generateGoogleMapsRouteURL: String
+ *        Generates a Google Maps route URL for multiple coordinates.
+ *        This method processes a string of coordinates, formats them into a route URL.
+ *
+ *    getWhatsInsideParenthesis: String
+ *        Extracts and returns the content inside parentheses from a given string using regex matching.
+ *
+ *    retrieveWKTLongLat: String[]
+ *        Extracts and returns the latitude and longitude from a WKT (Well-Known Text) coordinate string.
+ *        The coordinates are returned as a string array where the first element is latitude and the second is longitude.
+ *
+ *    retrieveListOfCoordinates: List<String[]>
+ *        Parses and retrieves a list of coordinates (latitude, longitude) from a string containing multiple coordinates.
+ *        The coordinates are returned as a list of string arrays, with each array containing a latitude and longitude.
+ *
+ */
+
 public class utils {
 
     public static String generateGoogleMapsLocalURL(String wkt) {
