@@ -123,7 +123,6 @@ public class auth {
         HashMap<String, String> dadosUsuario = new HashMap<String, String>();
         dadosUsuario.put(usuarioAutenticado.getUsername(), usuarioAutenticado.getRole());
 
-        scanner.close();
         return dadosUsuario;
     }
 }

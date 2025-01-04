@@ -1,6 +1,7 @@
 package caminhosOperarios;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Represents a route with a set of locations, a description, and functionality to manage the route.

@@ -34,15 +34,15 @@ class Usuario {
     private final String username;
     private final String password;
     private final String role; // Escopo: usuário, historiador, curador
-    private final int id;
+    private static int id;
     private ArrayList<rota> rotasVisitadas; // Lista de rotas visitadas pelo usuário
     private ArrayList<local> locaisVisitados; // Lista de locais visitados pelo usuário
 
-    public Usuario(String username, String password, String role, int id) {
+    public Usuario(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
-        this.id = id;
+        id++;
         this.rotasVisitadas = new ArrayList<>();
         this.locaisVisitados = new ArrayList<>();
     }
@@ -157,8 +157,8 @@ class Historiador extends Usuario {
     private ArrayList<String> projetosCriados; // Projetos criados pelo historiador
     private ArrayList<String> projetosEditados; // Projetos editados pelo historiador
 
-    public Historiador(String username, String password, String role, int id) {
-        super(username, password, role, id);
+    public Historiador(String username, String password, String role) {
+        super(username, password, role);
         this.rotasEditadas = new ArrayList<>();
         this.rotasCriadas = new ArrayList<>();
         this.locaisEditados = new ArrayList<>();
@@ -254,8 +254,8 @@ class Curador extends Usuario {
     private ArrayList<rota> rotasEditadas; // Rotas editadas pelo curador
     private ArrayList<local> locaisEditados; // Locais editados pelo curador
 
-    public Curador(String username, String password, String role, int id) {
-        super(username, password, role, id);
+    public Curador(String username, String password, String role) {
+        super(username, password, role);
 
         this.rotasEditadas = new ArrayList<>();
         this.locaisEditados = new ArrayList<>();

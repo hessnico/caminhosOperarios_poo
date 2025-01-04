@@ -45,13 +45,10 @@ public class main {
         }
 
         projeto memorias = projeto.montaProjeto("Memorias");
-        memorias.getNomeRotas();
-        memorias.getRotasCompleta();
-        memorias.getInformacaoLocais();
 
         while (running) {
             System.out.println("\n--- Menu Principal ---");
-            System.out.println("1. Escolher projeto");
+            System.out.println("1. Projeto: " + memorias.nome);
             System.out.println("2. Sair");
             System.out.print("Escolha uma opção: ");
             int choiceMenu = scanner.nextInt();
@@ -59,7 +56,7 @@ public class main {
 
             switch (choiceMenu) {
                 case 1:
-                    System.out.println("\nProjeto Selecionado: " + memorias.getNomeRotas());
+                    System.out.println("Projeto selecionado: " + memorias.nome);
                     boolean choiceRota = true;
 
                     while (choiceRota) {
@@ -70,48 +67,10 @@ public class main {
                         String rotaId = scanner.nextLine();
 
                         if (rotaId.equals("0")) {
-                            choiceRota = false;
                             break;
                         }
 
-                        rota rotaSelecionada = memorias.getNomeRotas();
-                        if (rotaSelecionada != null) {
-                            System.out.println("\nRota Selecionada: " + rotaSelecionada.getNome());
-                            boolean navegandoLocais = true;
-
-                            while (navegandoLocais) {
-                                System.out.println("\n--- Locais na Rota ---");
-                                rotaSelecionada.consultaLocais();
-                                System.out.println("0. Voltar à seleção de rotas");
-                                System.out.print("Escolha um local pelo nome: ");
-                                String localNome = scanner.nextLine();
-
-                                if (localNome.equals("0")) {
-                                    navegandoLocais = false;
-                                    break;
-                                }
-
-                                ArrayList<local> locais = rotaSelecionada.getLocal();
-                                local localSelecionado = null;
-                                for (local l : locais) {
-                                    if (l.getNome().equalsIgnoreCase(localNome)) {
-                                        localSelecionado = l;
-                                        break;
-                                    }
-                                }
-
-                                if (localSelecionado != null) {
-                                    System.out.println("\n--- Informações do Local ---");
-                                    System.out.println("Nome: " + localSelecionado.getNome());
-                                    System.out.println("Descrição: " + localSelecionado.getDescricao());
-                                    System.out.println("Coordenadas: " + localSelecionado.getUrlCoordenadas());
-                                } else {
-                                    System.out.println("Local não encontrado. Tente novamente.");
-                                }
-                            }
-                        } else {
-                            System.out.println("Rota não encontrada. Tente novamente.");
-                        }
+                        memorias.navegaLocal(rotaId);
                     }
                     break;
 

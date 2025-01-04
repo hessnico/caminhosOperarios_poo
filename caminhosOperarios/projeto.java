@@ -3,6 +3,7 @@ package caminhosOperarios;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Represents a project that organizes routes and locations.
@@ -111,7 +112,54 @@ public class projeto {
     private String descricao;
 
     // esse hashmap vai ser responsável por mapear o nome da rota com a rota em si;
-    private HashMap<String, rota> rotas;
+    private static HashMap<String, rota> rotas;
+
+    public static rota getSpecificRoute(String id) {
+        return rotas.get(id);
+    }
+
+    public void navegaLocal(String id) {
+        rota rotaSelecionada = getSpecificRoute(id);
+
+        System.out.println("\nRota Selecionada: " + rotaSelecionada.getNome());
+        boolean navegandoLocais = true;
+
+        while (navegandoLocais) {
+
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("\n--- Locais na Rota ---");
+            rotaSelecionada.consultaLocais();
+            System.out.println("0. Voltar à seleção de rotas");
+            System.out.print("Escolha um local pelo nome: ");
+            String localNome = scanner.nextLine();
+
+            if (localNome.equals("0")) {
+                navegandoLocais = false;
+                break;
+            }
+
+            ArrayList<local> locais = rotaSelecionada.getLocal();
+            local localSelecionado = null;
+            for (local l : locais) {
+                if (l.getNome().equalsIgnoreCase(localNome)) {
+                    localSelecionado = l;
+                    break;
+                }
+            }
+
+            if (localSelecionado != null) {
+                System.out.println("\n--- Informações do Local ---");
+                System.out.println("Nome: " + localSelecionado.getNome());
+                System.out.println("Descrição: " + localSelecionado.getDescricao());
+                System.out.println("Coordenadas: " + localSelecionado.getUrlCoordenadas());
+            } else {
+                System.out.println("Local não encontrado. Tente novamente.");
+            }
+
+            scanner.close();
+        }
+    }
 
     public void getInformacaoLocais() {
         System.out.println("Informação todos os locais para todas as rotas");
@@ -186,27 +234,27 @@ public class projeto {
             String currentId = partes[0];
             int intCurrentId = Integer.parseInt(partes[0]);
             if (!hashmapRotas.containsKey(currentId)) {
-                System.out.printf("\n    Não tenho o ID: %s e portanto estou adicionando no hashmap\n", partes[0]);
+                // System.out.printf("\n    Não tenho o ID: %s e portanto estou adicionando no hashmap\n", partes[0]);
 
-                System.out.print("    Adicionado rota atual no hashmap de rotas completas...");
+                // System.out.print("    Adicionado rota atual no hashmap de rotas completas...");
                 String currentRotaCompleta = utils.generateGoogleMapsRouteURL(partes[5]);
                 rota currentRota = new rota(intCurrentId, partes[4], currentRotaCompleta);
 
                 currentRota.adicionarLocal(temp_local);
 
-                System.out.printf("\n    local de nome %s foi aficionado a rota de ID %s", temp_local.getNome(), currentId);
+                // System.out.printf("\n    local de nome %s foi aficionado a rota de ID %s", temp_local.getNome(), currentId);
                 hashmapRotas.put(currentId, currentRota);
             } else {
 
                 rota currentRota = hashmapRotas.get(currentId);
                 currentRota.adicionarLocal(temp_local);
 
-                System.out.printf("\n    local de nome %s foi aficionado a rota de ID %s", temp_local.getNome(), currentId);
+                // System.out.printf("\n    local de nome %s foi aficionado a rota de ID %s", temp_local.getNome(), currentId);
                 hashmapRotas.put(currentId, currentRota);
             }
         }
 
-        System.out.println("\n------------------------------------------\n");
+        // System.out.println("\n------------------------------------------\n");
 
         return new projeto("Memórias dos operários", constants.DESCRICAO_MEMORIAS, hashmapRotas);
     }
