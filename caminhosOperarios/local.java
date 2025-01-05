@@ -101,6 +101,7 @@ package caminhosOperarios;
 public class local {
 
     private static int id = 0;
+    private int idLocal;
     public String nome;
     private String urlCoordenadas;
     private String descricao;
@@ -114,6 +115,15 @@ public class local {
         this.urlCoordenadas = urlCoordenadas;
         this.descricao = descricao;
         id++;
+        idLocal = id;
+    }
+
+    public int getIdLocal() {
+        return idLocal;
+    }
+
+    public static int getId() {
+        return id;
     }
 
     public String getDescricao() {

@@ -57,9 +57,9 @@ public class main {
             switch (choiceMenu) {
                 case 1:
                     System.out.println("Projeto selecionado: " + memorias.nome);
-                    boolean choiceRota = true;
+                    memorias.getDescricao();
 
-                    while (choiceRota) {
+                    while (true) {
                         System.out.println("\n--- Rotas Disponíveis ---");
                         memorias.getNomeRotas();
                         System.out.println("0. Voltar ao menu principal");
@@ -69,7 +69,6 @@ public class main {
                         if (rotaId.equals("0")) {
                             break;
                         }
-
                         memorias.navegaLocal(rotaId);
                     }
                     break;
@@ -83,7 +82,5 @@ public class main {
                     System.out.println("Opção inválida. Tente novamente.");
             }
         }
-
-        scanner.close();
     }
 }

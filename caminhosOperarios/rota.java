@@ -1,6 +1,7 @@
 package caminhosOperarios;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -58,11 +59,20 @@ public class rota {
         System.out.printf("\nDescriçao da rota: %s\n", descricao);
     }
 
+    public boolean validaID(int id) {
+        for (local current: local) {
+            if (current.getIdLocal() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void consultaLocais() {
-        System.out.printf("\nLocais da rota %s", nome);
+        System.out.println("\nLocais da rota " + nome);
         for (caminhosOperarios.local local : this.local) {
+            System.out.println("    ID: " + local.getIdLocal());
             System.out.println("    Nome: " + local.getNome());
-            System.out.println("    Descrição: " + local.getDescricao());
         }
     }
 

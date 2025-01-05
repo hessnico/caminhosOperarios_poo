@@ -114,6 +114,8 @@ public class projeto {
     // esse hashmap vai ser responsável por mapear o nome da rota com a rota em si;
     private static HashMap<String, rota> rotas;
 
+    private static HashMap<Integer, local> locais;
+
     public static rota getSpecificRoute(String id) {
         return rotas.get(id);
     }
@@ -124,40 +126,45 @@ public class projeto {
         System.out.println("\nRota Selecionada: " + rotaSelecionada.getNome());
         boolean navegandoLocais = true;
 
+        Scanner scanner = new Scanner(System.in);
         while (navegandoLocais) {
-
-            Scanner scanner = new Scanner(System.in);
 
             System.out.println("\n--- Locais na Rota ---");
             rotaSelecionada.consultaLocais();
-            System.out.println("0. Voltar à seleção de rotas");
-            System.out.print("Escolha um local pelo nome: ");
-            String localNome = scanner.nextLine();
 
-            if (localNome.equals("0")) {
+            System.out.println("\n-1. Voltar à seleção de rotas");
+            System.out.println("0: Para imprimir a rota completa");
+            System.out.print("Escolha um local pelo nome: ");
+            int localId = scanner.nextInt();
+
+            if (localId == -1) {
                 navegandoLocais = false;
                 break;
             }
 
-            ArrayList<local> locais = rotaSelecionada.getLocal();
-            local localSelecionado = null;
-            for (local l : locais) {
-                if (l.getNome().equalsIgnoreCase(localNome)) {
-                    localSelecionado = l;
-                    break;
-                }
+            if (localId == 0) {
+                System.out.println(rotaSelecionada.getRotaCompleta());
+                scanner.nextLine();
+                continue;
             }
+
+            boolean validaIDLocal = rotaSelecionada.validaID(localId);
+            if (!validaIDLocal) {
+                System.out.println("Local não encontrado. Tente novamente.");
+                continue;
+            }
+
+            local localSelecionado = locais.get(localId);
 
             if (localSelecionado != null) {
                 System.out.println("\n--- Informações do Local ---");
                 System.out.println("Nome: " + localSelecionado.getNome());
                 System.out.println("Descrição: " + localSelecionado.getDescricao());
                 System.out.println("Coordenadas: " + localSelecionado.getUrlCoordenadas());
+                scanner.nextLine();
             } else {
                 System.out.println("Local não encontrado. Tente novamente.");
             }
-
-            scanner.close();
         }
     }
 
@@ -203,10 +210,11 @@ public class projeto {
         System.out.printf("\nDescriçao do projeto: %s\n", descricao);
     }
 
-    public projeto(String nome, String descricao, HashMap<String, rota> rotas) {
+    public projeto(String nome, String descricao, HashMap<String, rota> rotas, HashMap<Integer, local> locais) {
         this.nome = nome;
         this.descricao = descricao;
         this.rotas = rotas;
+        this.locais = locais;
         id++;
     }
 
@@ -225,24 +233,28 @@ public class projeto {
         lines.removeFirst();
 
         HashMap<String, rota> hashmapRotas = new HashMap<String, rota>();
+        HashMap<Integer, local> hashMapLocais = new HashMap<Integer, local>();
+
         for (String line : lines) {
             String[] partes = line.split(";");
             String localGoogleMapsUrl = utils.generateGoogleMapsLocalURL(partes[1]);
 
             local temp_local = new local(partes[2], localGoogleMapsUrl, partes[3]);
+            hashMapLocais.put(local.getId(), temp_local);
 
             String currentId = partes[0];
             int intCurrentId = Integer.parseInt(partes[0]);
             if (!hashmapRotas.containsKey(currentId)) {
                 // System.out.printf("\n    Não tenho o ID: %s e portanto estou adicionando no hashmap\n", partes[0]);
-
                 // System.out.print("    Adicionado rota atual no hashmap de rotas completas...");
+
                 String currentRotaCompleta = utils.generateGoogleMapsRouteURL(partes[5]);
                 rota currentRota = new rota(intCurrentId, partes[4], currentRotaCompleta);
 
                 currentRota.adicionarLocal(temp_local);
 
                 // System.out.printf("\n    local de nome %s foi aficionado a rota de ID %s", temp_local.getNome(), currentId);
+
                 hashmapRotas.put(currentId, currentRota);
             } else {
 
@@ -256,6 +268,6 @@ public class projeto {
 
         // System.out.println("\n------------------------------------------\n");
 
-        return new projeto("Memórias dos operários", constants.DESCRICAO_MEMORIAS, hashmapRotas);
+        return new projeto("Memórias dos operários", constants.DESCRICAO_MEMORIAS, hashmapRotas, hashMapLocais);
     }
 }
