@@ -21,7 +21,6 @@
 *.xml
 *.iml
 *.xlsx
-*.csv
 
 out/*
 
