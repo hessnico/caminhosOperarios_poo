@@ -75,7 +75,7 @@ class Usuario {
 
     // Método: verInfoRota
     public String verInfoRota(rota rotaSelecionada) {
-        return String.format("Rota: %s\nDescrição: %s\nLocais:\n%s",
+        return String.format("Rota: %s\nRotaCompleta: %s\nLocais:\n%s",
                 rotaSelecionada.getNome(),
                 rotaSelecionada.getRotaCompleta(),
                 rotaSelecionada.getLocal().stream()
@@ -157,8 +157,8 @@ class Historiador extends Usuario {
     private ArrayList<String> projetosCriados; // Projetos criados pelo historiador
     private ArrayList<String> projetosEditados; // Projetos editados pelo historiador
 
-    public Historiador(String username, String password, String role) {
-        super(username, password, role);
+    public Historiador(String username, String password) {
+        super(username, password, "Historiador");
         this.rotasEditadas = new ArrayList<>();
         this.rotasCriadas = new ArrayList<>();
         this.locaisEditados = new ArrayList<>();
@@ -198,10 +198,12 @@ class Historiador extends Usuario {
     }
 
     public void editarRota(rota rotaSelecionada, String novoNome, String novaDescricao) {
+        rotaSelecionada.setNome(novoNome);
+        rotaSelecionada.setDescricao(novaDescricao);
         if (!rotasEditadas.contains(rotaSelecionada)) {
             rotasEditadas.add(rotaSelecionada);
         }
-        rotaSelecionada.verDescricao();
+        rotaSelecionada.getDescricao();
         rotaSelecionada = new rota(rotaSelecionada.getId(), novoNome, novaDescricao);
     }
 
@@ -254,8 +256,8 @@ class Curador extends Usuario {
     private ArrayList<rota> rotasEditadas; // Rotas editadas pelo curador
     private ArrayList<local> locaisEditados; // Locais editados pelo curador
 
-    public Curador(String username, String password, String role) {
-        super(username, password, role);
+    public Curador(String username, String password) {
+        super(username, password, "Curador");
 
         this.rotasEditadas = new ArrayList<>();
         this.locaisEditados = new ArrayList<>();
@@ -272,14 +274,19 @@ class Curador extends Usuario {
 
     // Método para editar rotas
     public void editarRota(rota rotaSelecionada, String novoNome, String novaDescricao) {
+        rotaSelecionada.setNome(novoNome);
+        rotaSelecionada.setDescricao(novaDescricao);
         if (!rotasEditadas.contains(rotaSelecionada)) {
             rotasEditadas.add(rotaSelecionada);
         }
-        rotaSelecionada = new rota(rotaSelecionada.getId(), novoNome, novaDescricao);
     }
 
     // Método para editar locais
     public void editarLocal(local localSelecionado, String novoNome, String novaDescricao, String novasCoordenadas) {
+        localSelecionado.setNome(novoNome);
+        localSelecionado.setDescricao(novaDescricao);
+        localSelecionado.setUrlCoordenadas(novasCoordenadas);
+
         if (!locaisEditados.contains(localSelecionado)) {
             locaisEditados.add(localSelecionado);
         }

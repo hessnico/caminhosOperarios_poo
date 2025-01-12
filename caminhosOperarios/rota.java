@@ -55,8 +55,8 @@ public class rota {
     private String rotaCompleta;
     private static int visitas = 0;
 
-    public void verDescricao() {
-        System.out.printf("\nDescriçao da rota: %s\n", descricao);
+    public String getDescricao() {
+        return this.descricao;
     }
 
     public boolean validaID(int id) {
@@ -66,6 +66,14 @@ public class rota {
             }
         }
         return false;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public void consultaLocais() {

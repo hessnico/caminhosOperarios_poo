@@ -1,8 +1,6 @@
 package caminhosOperarios;
 
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /*
 Informações do banco de dados
@@ -38,8 +36,8 @@ public class main {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
-        HashMap<String, String> dadosUsuario = auth.validaUsuario();
-        if (dadosUsuario == null || dadosUsuario.isEmpty()) {
+        Usuario usuarioAtual= auth.validaUsuario();
+        if (usuarioAtual== null) {
             System.out.println("Erro na validação do usuário. Encerrando o programa.");
             return;
         }
@@ -115,7 +113,7 @@ public class main {
     }
 
     private static void navegarProjeto(Scanner scanner, projeto memorias, Usuario usuario) {
-        System.out.println("\nProjeto Selecionado: " + memorias.getNome());
+        System.out.println("\nProjeto Selecionado: " + memorias.nome);
         boolean navegandoRotas = true;
 
         while (navegandoRotas) {
@@ -130,10 +128,10 @@ public class main {
                 break;
             }
 
-            rota rotaSelecionada = memorias.getRotaPorId(rotaId);
+            rota rotaSelecionada = memorias.getSpecificRoute(rotaId);
             if (rotaSelecionada != null) {
                 usuario.visitarRota(rotaSelecionada); // Adiciona a rota à lista de visitadas
-                System.out.println(usuario.verInfoRota(rotaSelecionada));
+                memorias.navegaLocal(rotaSelecionada);
             } else {
                 System.out.println("Rota não encontrada.");
             }
@@ -145,7 +143,7 @@ public class main {
         memorias.getNomeRotas();
         System.out.print("Escolha uma rota pelo ID para editar: ");
         String rotaId = scanner.nextLine();
-        rota rotaSelecionada = memorias.getRotaPorId(rotaId);
+        rota rotaSelecionada = memorias.getSpecificRoute(rotaId);
 
         if (rotaSelecionada != null) {
             System.out.print("Novo nome para a rota: ");
@@ -169,7 +167,7 @@ public class main {
         memorias.getNomeRotas();
         System.out.print("Escolha uma rota pelo ID para selecionar um local: ");
         String rotaId = scanner.nextLine();
-        rota rotaSelecionada = memorias.getRotaPorId(rotaId);
+        rota rotaSelecionada = memorias.getSpecificRoute(rotaId);
 
         if (rotaSelecionada != null) {
             rotaSelecionada.consultaLocais();
@@ -185,13 +183,14 @@ public class main {
                 String novoNome = scanner.nextLine();
                 System.out.print("Nova descrição para o local: ");
                 String novaDescricao = scanner.nextLine();
-                System.out.print("Novas coordenadas para o local: ");
+                System.out.print("Novas coordenadas para o local: (No estilo WKT... [POINT (-51.222 -30.029)])");
                 String novasCoordenadas = scanner.nextLine();
 
+                String novaUrlCoordenadas = utils.generateGoogleMapsLocalURL(novasCoordenadas);
                 if (usuario instanceof Curador) {
-                    ((Curador) usuario).editarLocal(localSelecionado, novoNome, novaDescricao, novasCoordenadas);
+                    ((Curador) usuario).editarLocal(localSelecionado, novoNome, novaDescricao, novaUrlCoordenadas);
                 } else if (usuario instanceof Historiador) {
-                    ((Historiador) usuario).editarLocal(localSelecionado, novoNome, novaDescricao, novasCoordenadas);
+                    ((Historiador) usuario).editarLocal(localSelecionado, novoNome, novaDescricao, novaUrlCoordenadas);
                 }
                 System.out.println("Local editado com sucesso!");
             } else {
@@ -213,8 +212,8 @@ public class main {
         String descricao = scanner.nextLine();
 
         historiador.criarRota(id, nome, descricao);
-        memorias.criarRota(id, nome, descricao); // Atualiza o projeto
-        System.out.println("Nova rota criada com sucesso!");
+        // memorias.criarRota(id, nome, descricao);
+        System.out.println("Atualizar rota atual não implementado!");
     }
 
     private static void criarLocal(Scanner scanner, Historiador historiador, projeto memorias) {

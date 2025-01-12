@@ -116,12 +116,11 @@ public class projeto {
 
     private static HashMap<Integer, local> locais;
 
-    public static rota getSpecificRoute(String id) {
+    public rota getSpecificRoute(String id) {
         return rotas.get(id);
     }
 
-    public void navegaLocal(String id) {
-        rota rotaSelecionada = getSpecificRoute(id);
+    public void navegaLocal(rota rotaSelecionada) {
 
         System.out.println("\nRota Selecionada: " + rotaSelecionada.getNome());
         boolean navegandoLocais = true;

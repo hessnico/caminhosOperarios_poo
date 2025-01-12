@@ -93,7 +93,7 @@ public class auth {
         return null;
     }
 
-    public static HashMap<String, String> validaUsuario() {
+    public static Usuario validaUsuario() {
 
         if (!montaDatabaseUsuarios()) {
             System.out.println("Erro em valida usuario. Não foi possível de montar o banco de dados");
@@ -115,14 +115,19 @@ public class auth {
             System.out.println("Autenticação bem-sucedida!");
             System.out.println("Bem-vindo, " + usuarioAutenticado.getUsername() + "!");
             System.out.println("Seu escopo é: " + usuarioAutenticado.getRole());
+
+            // Retorna a instância correta com base na role
+            switch (usuarioAutenticado.getRole()) {
+                case "historiador":
+                    return new Historiador(usuarioAutenticado.getUsername(), usuarioAutenticado.getPassword());
+                case "curador":
+                    return new Curador(usuarioAutenticado.getUsername(), usuarioAutenticado.getPassword());
+                default:
+                    return new Usuario(usuarioAutenticado.getUsername(), usuarioAutenticado.getPassword(), "Usuario");
+            }
         } else {
             System.out.println("Falha na autenticação. Verifique suas credenciais.");
             return null;
         }
-
-        HashMap<String, String> dadosUsuario = new HashMap<String, String>();
-        dadosUsuario.put(usuarioAutenticado.getUsername(), usuarioAutenticado.getRole());
-
-        return dadosUsuario;
     }
 }

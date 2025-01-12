@@ -118,6 +118,18 @@ public class local {
         idLocal = id;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setUrlCoordenadas(String urlCoordenadas) {
+        this.urlCoordenadas = urlCoordenadas;
+    }
+
     public int getIdLocal() {
         return idLocal;
     }
