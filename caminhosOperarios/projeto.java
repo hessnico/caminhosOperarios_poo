@@ -269,4 +269,122 @@ public class projeto {
 
         return new projeto("Memórias dos operários", constants.DESCRICAO_MEMORIAS, hashmapRotas, hashMapLocais);
     }
+
+    public void navegarProjeto(Scanner scanner, Usuario usuario) {
+        System.out.println("\nProjeto Selecionado: " + nome);
+        boolean navegandoRotas = true;
+
+        while (navegandoRotas) {
+            System.out.println("\n--- Rotas Disponíveis ---");
+            getNomeRotas(); // Lista rotas
+            System.out.println("0. Voltar ao menu principal");
+            System.out.print("Escolha uma rota pelo ID: ");
+            String rotaId = scanner.nextLine();
+
+            if (rotaId.equals("0")) {
+                navegandoRotas = false;
+                break;
+            }
+
+            rota rotaSelecionada = getSpecificRoute(rotaId);
+            if (rotaSelecionada != null) {
+                usuario.visitarRota(rotaSelecionada); // Adiciona a rota à lista de visitadas
+                navegaLocal(rotaSelecionada);
+            } else {
+                System.out.println("Rota não encontrada.");
+            }
+        }
+    }
+
+    public void editarRota(Scanner scanner, projeto memorias, Usuario usuario) {
+        System.out.println("\n--- Editar Rota ---");
+        memorias.getNomeRotas();
+        System.out.print("Escolha uma rota pelo ID para editar: ");
+        String rotaId = scanner.nextLine();
+        rota rotaSelecionada = memorias.getSpecificRoute(rotaId);
+
+        if (rotaSelecionada != null) {
+            System.out.print("Novo nome para a rota: ");
+            String novoNome = scanner.nextLine();
+            System.out.print("Nova descrição para a rota: ");
+            String novaDescricao = scanner.nextLine();
+
+            if (usuario instanceof Curador) {
+                ((Curador) usuario).editarRota(rotaSelecionada, novoNome, novaDescricao);
+            } else if (usuario instanceof Historiador) {
+                ((Historiador) usuario).editarRota(rotaSelecionada, novoNome, novaDescricao);
+            }
+            System.out.println("Rota editada com sucesso!");
+        } else {
+            System.out.println("Rota não encontrada.");
+        }
+    }
+
+    public void editarLocal(Scanner scanner, projeto memorias, Usuario usuario) {
+        System.out.println("\n--- Editar Local ---");
+        memorias.getNomeRotas();
+        System.out.print("Escolha uma rota pelo ID para selecionar um local: ");
+        String rotaId = scanner.nextLine();
+        rota rotaSelecionada = memorias.getSpecificRoute(rotaId);
+
+        if (rotaSelecionada != null) {
+            rotaSelecionada.consultaLocais();
+            System.out.print("Escolha um local pelo nome para editar: ");
+            String localNome = scanner.nextLine();
+            local localSelecionado = rotaSelecionada.getLocal().stream()
+                    .filter(l -> l.getNome().equalsIgnoreCase(localNome))
+                    .findFirst()
+                    .orElse(null);
+
+            if (localSelecionado != null) {
+                System.out.print("Novo nome para o local: ");
+                String novoNome = scanner.nextLine();
+                System.out.print("Nova descrição para o local: ");
+                String novaDescricao = scanner.nextLine();
+                System.out.print("Novas coordenadas para o local: (No estilo WKT... [POINT (-51.222 -30.029)])");
+                String novasCoordenadas = scanner.nextLine();
+
+                String novaUrlCoordenadas = utils.generateGoogleMapsLocalURL(novasCoordenadas);
+                if (usuario instanceof Curador) {
+                    ((Curador) usuario).editarLocal(localSelecionado, novoNome, novaDescricao, novaUrlCoordenadas);
+                } else if (usuario instanceof Historiador) {
+                    ((Historiador) usuario).editarLocal(localSelecionado, novoNome, novaDescricao, novaUrlCoordenadas);
+                }
+                System.out.println("Local editado com sucesso!");
+            } else {
+                System.out.println("Local não encontrado.");
+            }
+        } else {
+            System.out.println("Rota não encontrada.");
+        }
+    }
+
+    public void criarRota(Scanner scanner, Historiador historiador) {
+        System.out.println("\n--- Criar Nova Rota ---");
+        System.out.print("ID da nova rota: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Consumir quebra de linha
+        System.out.print("Nome da nova rota: ");
+        String nome = scanner.nextLine();
+        System.out.print("Descrição da nova rota: ");
+        String descricao = scanner.nextLine();
+
+        historiador.criarRota(id, nome, descricao);
+        // memorias.criarRota(id, nome, descricao);
+        System.out.println("Atualizar rota atual não implementado!");
+    }
+
+    public void criarLocal(Scanner scanner, Historiador historiador) {
+        System.out.println("\n--- Criar Novo Local ---");
+        System.out.print("Nome do local: ");
+        String nome = scanner.nextLine();
+        System.out.print("Descrição do local: ");
+        String descricao = scanner.nextLine();
+        System.out.print("Coordenadas do local: ");
+        String coordenadas = scanner.nextLine();
+
+        historiador.criarLocal(nome, coordenadas, descricao);
+        System.out.println("Novo local criado com sucesso!");
+    }
+
 }

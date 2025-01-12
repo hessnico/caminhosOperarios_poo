@@ -204,7 +204,6 @@ class Historiador extends Usuario {
             rotasEditadas.add(rotaSelecionada);
         }
         rotaSelecionada.getDescricao();
-        rotaSelecionada = new rota(rotaSelecionada.getId(), novoNome, novaDescricao);
     }
 
     // Métodos para criar e editar locais
@@ -217,7 +216,6 @@ class Historiador extends Usuario {
         if (!locaisEditados.contains(localSelecionado)) {
             locaisEditados.add(localSelecionado);
         }
-        localSelecionado = new local(novoNome, novasCoordenadas, novaDescricao);
     }
 
     // Métodos para criar e editar projetos
@@ -290,7 +288,6 @@ class Curador extends Usuario {
         if (!locaisEditados.contains(localSelecionado)) {
             locaisEditados.add(localSelecionado);
         }
-        localSelecionado = new local(novoNome, novasCoordenadas, novaDescricao);
     }
 
 }
